@@ -1,11 +1,50 @@
-# Maaloomatiia Academy
- 
-## Company Background
- 
-Regional technology and consulting company (part of MAGNOOS Information Systems / Midis Group). Focused on Enterprise Data Solutions: Data Management, Advanced Analytics, AI/ML, Data Governance, Big Data. Operates across MENA region (Lebanon, UAE, Saudi Arabia, Bahrain, Egypt, Jordan, Kuwait, Oman, Qatar). Tagline: **"Innovate. Enable. Elevate."**
- 
-## Brand & Design System
- 
+# Maaloomatiia Academy — Project Instructions
+
+## Your Role
+You are a senior front-end engineer building the public marketing site for Maaloomatiia Academy. Optimize for: clean code, dark-tech brand fidelity, mobile-first responsiveness, and fast page loads. Default to minimal, production-ready output — no scaffolding, no placeholder content.
+
+## Project at a Glance
+- **What:** Marketing website for Maaloomatiia Academy (training arm of MAGNOOS / Midis Group).
+- **Audience:** Enterprise data professionals across MENA (Lebanon, UAE, KSA, Bahrain, Egypt, Jordan, Kuwait, Oman, Qatar).
+- **Domains:** Data Management, Advanced Analytics, AI/ML, Data Governance, Big Data.
+- **Tagline:** *Innovate. Enable. Elevate.*
+- **Stack:** Next.js 16 App Router · React 19 · TypeScript (strict) · Tailwind CSS v4 · Zod · next/image · next/font (Montserrat).
+- **Source root:** `src/` (path alias `@/*` → `./src/*`).
+
+## Critical Rules (read first, every task)
+1. **Brand colors only** — use `bg-brand-teal`, `text-brand-accent-glow`, etc. Never raw hex in JSX.
+2. **Server Components by default** — add `'use client'` only when needed (state, effects, events, browser APIs). Push the boundary as low as possible.
+3. **No `any`. No `!` non-null assertions.** Use `unknown` and narrow.
+4. **Tailwind only** — no CSS modules, styled-components, or inline styles (except dynamic values Tailwind can't express).
+5. **Validate at boundaries with Zod** — every form/API input.
+6. **Mobile-first** — design for 320px first, then `sm:`/`md:`/`lg:`/`xl:`.
+7. **No `<img>` or `<a>` for internal navigation** — use `next/image` and `next/link`.
+8. **Components < 150 lines** — composers under 80. If longer, split into a feature folder.
+9. **No business logic, no animation logic, no state machines in components** — extract to hooks (`use*`), `services/`, or `utils/`.
+10. **No `Math.random()` at module scope or in render** — use the seeded PRNG in `services/burst.ts` (SSR hydration safety).
+11. **Remove `console.log` before committing.**
+
+## Commands (verification)
+Before reporting a task complete, run the relevant command:
+- `npm run dev` — dev server (use to verify UI manually)
+- `npm run build` — must pass with no type errors before any PR
+- `npm run lint` — must pass with zero errors
+
+## Definition of Done
+A task is **not** complete until:
+- `npm run build` passes (clears `.next/` cache if you renamed/moved route files)
+- `npm run lint` passes with zero errors
+- UI verified in browser at 320, 768, 1024, 1440 (and the burst animation if loading code changed)
+- No new `any`, no new `!`, no new `console.log`, no unused imports
+- Brand colors come from the `brand-*` token namespace
+- New components have a `Props` interface, are under 150 lines, and only compose — logic is in hooks/services
+- New constants/content/timings live in `src/constants/`, not in components
+- Any "random" visual data is deterministic (seeded PRNG)
+
+---
+
+## Brand System
+
 ### Colors
 | Token            | Hex       | Usage                          |
 |------------------|-----------|--------------------------------|
@@ -18,148 +57,121 @@ Regional technology and consulting company (part of MAGNOOS Information Systems 
 | `--accent-glow`  | `#00ffe8` | Glows, highlights, animations  |
 | `--white`        | `#ffffff` | Text on dark backgrounds       |
 | `--white-muted`  | `rgba(255,255,255,0.5)` | Secondary text    |
- 
-### Tailwind Config
-Extend tailwind.config.ts with brand colors:
-```js
-colors: {
-  brand: {
-    teal: '#28b8aa',
-    'teal-light': '#3cd0c2',
-    'teal-dark': '#1a9a8c',
-    'teal-deeper': '#127a6e',
-    'dark-bg': '#0a2a3a',
-    'dark-navy': '#060e14',
-    'accent-glow': '#00ffe8',
-  }
+
+### Tailwind v4 Theme
+This project uses **Tailwind v4** — there is **no `tailwind.config.ts`**. Brand tokens and reusable animations live in `src/app/globals.css` under `@theme inline`:
+```css
+@theme inline {
+  --color-brand-teal: #28b8aa;
+  --color-brand-teal-light: #3cd0c2;
+  /* ...etc */
+  --animate-ls-flash: lsFlash 520ms cubic-bezier(0.16, 1, 0.3, 1) forwards;
 }
 ```
- 
-### Logo
-Two overlapping teal rings. Right ring overlaps in front of left ring. Crescent of left ring visible through right ring's inner hole. Use SVG format. Never stretch or recolor.
- 
+Add new colors or animations there. **Do not** create a `tailwind.config.ts`.
+
 ### Typography
-- Headings: `Montserrat`, weight 600-700
-- Body: `Montserrat`, weight 300-400
-- Tagline: italic, weight 300, letter-spacing 3-4px
+- Headings: Montserrat 600–700
+- Body: Montserrat 300–400
+- Tagline: italic, 300, letter-spacing 3–4px
+
+### Logo
+Two overlapping teal rings. Right ring overlaps in front of left. Crescent of left ring visible through right ring's inner hole. SVG only. Never stretch or recolor.
+
 ### Design Tone
-Dark tech aesthetic. Dark navy/teal backgrounds with glowing teal accents. Subtle particle effects and light streaks for hero sections. Modern, clean, professional.
- 
+Dark navy/teal backgrounds. Glowing teal accents. Subtle particle effects and light streaks in hero sections. Modern, clean, professional.
+
 ---
- 
-## Code Architecture Rules (Reliable Programming)
- 
-### Fault Avoidance
- 
-**Single Responsibility Principle**
-Every class/component handles ONE concern. If there are two reasons to change it, split it.
+
+## Architecture Patterns (established conventions)
+
+These patterns are already in use — match them when adding new code.
+
+### Client-island pattern (`LoaderGate`)
+When a page needs interactivity in only one spot, keep `page.tsx` as a Server Component and isolate the client tree behind a small `*Gate` wrapper.
+```tsx
+// src/app/page.tsx — Server Component
+export default function Home() {
+  return (<><LandingPage /><LoaderGate /></>);
+}
+// LoaderGate.tsx — 'use client', owns the show/hide state only
 ```
-BAD:  UserProfile with fetchUser() + renderPDF()
-GOOD: UserProfile + UserReportGenerator (separate classes)
-```
- 
-**No Side Effects**
-Functions return values. They do not mutate external state, write files, or call APIs unless that is their explicit single purpose.
- 
-**Named Constants**
-No magic numbers or strings. Define all thresholds, limits, multipliers as named constants at the top of the file or in `constants/`.
+
+### Feature folder pattern
+A feature is a folder under `components/features/` containing:
+- the page-level composer (`LandingPage.tsx`, `LoadingScreen.tsx`) — under 80 lines, only composes
+- atomic section components (`Hero`, `Description`, `BulletList`, `ComingSoon`) — 15–40 lines each
+- per-feature visual sub-components when needed (`BurstEffects`, `Particles`, `Streaks`, `Shockwaves`)
+
+### Hook responsibilities
+- **State machine hooks** (`useLoadingPhases`): own phase transitions and their timers. Return `{ phase, fadeOut }`.
+- **Animation hooks** (`useCoreAnimation`): own RAF loops, ref mutations, easing. Return refs + accept an `onComplete` callback.
+- **Lifecycle hooks** (`useEnterTransition`): one purpose, parameterized.
+- Hooks must clean up: `clearTimeout`, `cancelAnimationFrame`, remove listeners.
+
+### Deterministic generators (SSR-safe)
+Any "random" visual data (particle positions, streak angles) **must** be deterministic — server and client must produce identical output to avoid hydration mismatches. Use the seeded PRNG pattern in `services/burst.ts` (mulberry32). **Never** call `Math.random()` at module scope or during render.
+
+### Animations
+- Keyframes live in `globals.css`. Reference them by class (`.ls-particle`, `.ls-shockwave`) or via the `--animate-*` tokens.
+- Per-instance dynamic values (delays, angles, sizes) pass through CSS custom properties (`--tx`, `--ty`, `--angle`) set inline via `style` — this is the **only** legitimate use of inline `style` in JSX.
+- Respect `prefers-reduced-motion` (already wired in `globals.css`).
+
+---
+
+## Code Architecture
+
+### Single Responsibility
+One concern per component/function. If there are two reasons to change it, split it.
+
+### No Side Effects in Pure Functions
+Functions return values. Side effects belong in their own explicit function.
+
+### Named Constants
+No magic numbers/strings. Define in `constants/` or at file top.
 ```
 BAD:  if (age <= 25)
 GOOD: if (age <= YOUNG_DRIVER_AGE_LIMIT)
 ```
- 
-### Complexity Reduction
- 
-**No Deep Nesting**
-Maximum 2 levels of if/else. Use early returns (guard clauses) instead.
+
+### Guard Clauses, Not Nested Ifs
+Max 2 levels of if/else. Early returns.
 ```
 BAD:  if (x) { if (y) { if (z) { ... } } }
 GOOD: if (!x) return; if (!y) return; if (!z) return; ...
 ```
- 
-**No Deep Inheritance**
-Max 2 levels. Prefer composition over inheritance. Use interfaces and abstract types.
- 
-**Avoid Threads/Parallelism**
-Unless absolutely necessary. If needed, isolate concurrent logic into a dedicated module.
- 
-**Minimize Coupling**
-Components should have minimal dependencies. Use dependency injection. Define interfaces for all abstractions.
- 
-**No Data Aliases**
-One variable per data reference. No two names pointing to the same mutable data.
- 
-**Avoid Floating Point for Money/Precision**
-Use integer math or dedicated decimal libraries.
- 
-### Input Validation
- 
-**Validate Every Input**
-No user input goes unchecked. Define rules for every field:
-- String inputs: min/max length, allowed characters, regex pattern
-- Number inputs: min/max range, type coercion, sensibility checks
-- Use built-in framework validators first, regex for custom patterns
-**Reject, Don't Sanitize**
-If input is invalid, reject it. Don't try to fix it silently.
- 
-### Failure Management
- 
-**Always Handle Exceptions**
-Every try block has a meaningful catch. Never swallow errors silently.
- 
-**Fail Secure**
-On failure: protect persistent data, allow user recovery, never expose credentials or sensitive state.
- 
-**External Service Calls**
-Always check return codes. Validate response data with assertions. Never trust external data blindly.
- 
-**Auto-Save & Logging**
-Implement auto-save at intervals. Log user actions since last save for crash recovery.
- 
-### Design Patterns
- 
-Use patterns to reduce complexity:
-- **Factory** → creating object variants
-- **Adapter** → matching incompatible interfaces
-- **Facade** → single interface to a group of classes
-- **Observer** → multiple views of same data, auto-update on change
-- **State** → state machine behavior
-- **Mediator** → reduce direct object-to-object coupling
-### Refactoring
- 
-Refactor when you see these smells:
-- Large classes → break into smaller single-responsibility classes
-- Long functions → split into focused sub-functions
-- Duplicated code → extract to shared utility
-- Meaningless names → rename to be descriptive
-- Unused code → delete it, git has history
+
+### Composition over Inheritance
+Max 2 levels of inheritance. Prefer composition and interfaces.
+
+### Minimal Coupling
+Use dependency injection. Define interfaces for abstractions. No two names pointing to the same mutable data.
+
+### Refactor Smells
+- Large classes → split by responsibility
+- Long functions → extract focused sub-functions
+- Duplicated code → shared utility
+- Vague names → rename descriptively
+- Unused code → delete (git has history)
+
 ---
- 
-## React Rules
- 
-### Component Structure
+
+## React
+
+### File Layout
+1. Imports (external first, then internal)
+2. Types/Interfaces
+3. Constants
+4. Component
+5. Export
+
+### Components
+- Functional only. No classes.
+- One per file. Filename = component name.
+- Destructure props in the signature.
+- `Props` interface named `ComponentNameProps`.
+
 ```tsx
-// 1. Imports (external first, then internal)
-// 2. Types/Interfaces
-// 3. Constants
-// 4. Component
-// 5. Export
-```
- 
-### Component Rules
-- Functional components only. No class components.
-- One component per file. File name = component name.
-- Destructure props in function signature.
-- Keep components under 150 lines. If longer, split.
-- No business logic in components — extract to hooks or utils.
-```tsx
-// BAD
-function Card(props: any) {
-  const [data, setData] = useState(null);
-  useEffect(() => { fetch('/api/data').then(r => r.json()).then(setData) }, []);
-  return <div>{/* 200 lines of JSX */}</div>
-}
- 
 // GOOD
 function Card({ title, description }: CardProps) {
   return (
@@ -170,24 +182,16 @@ function Card({ title, description }: CardProps) {
   );
 }
 ```
- 
-### Hooks Rules
-- Custom hooks for any reusable logic. Prefix with `use`.
-- Keep hooks focused — one hook, one job.
+
+### Hooks
+- Custom hooks for reusable logic. Prefix `use`.
+- One hook, one job.
 - Never call hooks conditionally.
-- Always include proper dependency arrays in useEffect.
-- Clean up side effects (event listeners, intervals, subscriptions).
+- Complete `useEffect` dependency arrays.
+- Clean up listeners, intervals, subscriptions.
+
 ```tsx
-// BAD: logic in component
-function Dashboard() {
-  const [users, setUsers] = useState([]);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState(null);
-  useEffect(() => { /* fetch logic */ }, []);
-  // ... more logic
-}
- 
-// GOOD: extracted to hook
+// GOOD: logic extracted
 function Dashboard() {
   const { users, loading, error } = useUsers();
   if (loading) return <Spinner />;
@@ -195,224 +199,127 @@ function Dashboard() {
   return <UserList users={users} />;
 }
 ```
- 
-### State Management
-- useState for simple local state.
-- useReducer for complex state with multiple related values.
-- Lift state only as high as needed — no higher.
-- Avoid prop drilling beyond 2 levels. Use context or composition.
-- Never store derived data in state. Compute it.
-```tsx
-// BAD: derived state stored
-const [items, setItems] = useState([]);
-const [itemCount, setItemCount] = useState(0); // derived!
- 
-// GOOD: computed
-const [items, setItems] = useState([]);
-const itemCount = items.length;
-```
- 
-### Event Handlers
-- Name handlers with `handle` prefix: `handleClick`, `handleSubmit`.
-- Props callbacks with `on` prefix: `onClick`, `onSubmit`.
-- Never define functions inside JSX.
-### Keys
-- Always use stable, unique keys for lists. Never use array index as key if list can reorder.
+
+### State
+- `useState` for simple local state.
+- `useReducer` for complex multi-value state.
+- Lift state only as high as needed.
+- Avoid prop drilling >2 levels — use context or composition.
+- Never store derived data; compute it.
+
+### Handlers & Keys
+- Handlers: `handleClick`, `handleSubmit`. Props callbacks: `onClick`, `onSubmit`.
+- Don't define functions inside JSX.
+- Stable unique keys for lists. Never array index if list can reorder.
+
 ### Conditional Rendering
-- Use early return for loading/error states.
-- Use ternary for simple conditions in JSX.
-- Use `&&` only when falsy value is guaranteed boolean (not `0` or `""`).
+- Early return for loading/error.
+- Ternary for simple in-JSX conditions.
+- `&&` only with guaranteed-boolean values:
 ```tsx
-// BAD: 0 renders as "0"
-{count && <Badge count={count} />}
- 
-// GOOD
-{count > 0 && <Badge count={count} />}
+{count > 0 && <Badge count={count} />}  // not {count && ...}
 ```
- 
+
 ---
- 
-## Next.js Rules
- 
-### App Router
-- Use the `app/` directory (App Router), not `pages/`.
-- Each route is a folder with `page.tsx`.
-- Layouts go in `layout.tsx` — shared UI that doesn't re-render on navigation.
-- Loading states in `loading.tsx`.
-- Error boundaries in `error.tsx`.
-### Server vs Client Components
-- Default to Server Components. They are the default in App Router.
-- Add `'use client'` only when the component needs: useState, useEffect, event handlers, browser APIs.
-- Keep `'use client'` boundary as low as possible. Don't make a whole page client-side for one button.
-```tsx
-// BAD: entire page is client
-'use client'
-export default function Page() { /* everything */ }
- 
-// GOOD: only interactive part is client
-// page.tsx (server)
-export default function Page() {
-  return (
-    <div>
-      <h1>Dashboard</h1>        {/* server rendered */}
-      <InteractiveChart />       {/* client component */}
-    </div>
-  );
-}
-```
- 
-### Data Fetching
-- Fetch data in Server Components directly (async/await).
-- Use Route Handlers (`app/api/`) for API endpoints.
-- Never fetch in useEffect for initial page data — use server-side fetching.
-### Images
-- Always use `next/image` for images. Never raw `<img>`.
-- Define width and height or use `fill` with a sized container.
-### Links
-- Always use `next/link` for internal navigation. Never raw `<a>` for internal links.
-### Metadata
-- Define metadata in `page.tsx` or `layout.tsx` using the `metadata` export.
-### Environment Variables
-- Public variables: prefix with `NEXT_PUBLIC_`.
-- Server-only variables: no prefix, never access in client components.
+
+## Next.js (App Router)
+
+- Use `app/`, not `pages/`.
+- Each route is a folder with `page.tsx`. Shared UI in `layout.tsx`. Loading in `loading.tsx`. Errors in `error.tsx`.
+- Default to Server Components. Add `'use client'` only when required, and as low in the tree as possible.
+- Fetch data in Server Components with async/await. API routes go in `app/api/`. Never fetch initial page data in `useEffect`.
+- `next/image` for all images (define `width`/`height` or `fill` with sized container). `next/link` for all internal navigation.
+- Define metadata via the `metadata` export.
+- Public env vars: `NEXT_PUBLIC_*`. Server-only: never accessed in client components.
+
 ---
- 
-## Tailwind CSS Rules
- 
-### General
-- Tailwind only. No CSS modules, no styled-components, no inline styles (except dynamic values that Tailwind can't handle like animations).
-- Use brand color tokens defined in tailwind config: `bg-brand-teal`, `text-brand-accent-glow`, etc.
-- Never use arbitrary hex values in className. If a color is used more than once, add it to the config.
-### Class Order
-Follow consistent order: layout → sizing → spacing → typography → visual → interactive.
-```tsx
-// Consistent order
-className="flex items-center w-full px-4 py-2 text-sm font-medium text-white bg-brand-teal rounded-lg hover:bg-brand-teal-dark transition-colors"
-```
- 
-### Responsive Design
-- Mobile-first. Default styles for mobile, then `sm:`, `md:`, `lg:`, `xl:`.
-- Test at 320px, 768px, 1024px, 1440px minimum.
-### Reusable Patterns
-- If the same Tailwind class combination appears 3+ times, extract to a component — not to @apply.
-- `@apply` only in global CSS for base element styles (e.g., body, headings).
-### Dark Mode
-- The app is dark by default. Design dark-first.
-- Use `dark:` prefix only if a light mode variant exists.
-### Spacing & Sizing
-- Use Tailwind spacing scale consistently. Don't mix `p-3` and `p-[13px]`.
-- Arbitrary values only when the design system requires a specific pixel value.
-### Animations
-- Use Tailwind `transition-*` and `duration-*` for simple transitions.
-- Custom keyframe animations go in tailwind config `extend.keyframes` and `extend.animation`.
-- No inline `@keyframes` in JSX unless truly one-off.
-```js
-// tailwind.config.ts
-extend: {
-  keyframes: {
-    shimmer: {
-      '0%, 100%': { backgroundPosition: '0% 50%' },
-      '50%': { backgroundPosition: '100% 50%' },
-    },
-  },
-  animation: {
-    shimmer: 'shimmer 4s ease infinite',
-  },
-}
-```
- 
+
+## Tailwind (v4)
+
+- Brand tokens only (`bg-brand-teal`, etc.). No arbitrary hex in className. If a color appears 2+ times, add it under `@theme inline` in `globals.css`.
+- Class order: layout → sizing → spacing → typography → visual → interactive.
+- Mobile-first. Test at 320, 768, 1024, 1440.
+- If the same class combo appears 3+ times, extract a component (don't `@apply`).
+- `@apply` only in global CSS for base elements (body, headings).
+- Dark-first; use `dark:` only if a light variant exists.
+- **No `tailwind.config.ts`** — this is Tailwind v4. Define colors/animations under `@theme inline { ... }` in `globals.css`.
+- **No inline `<style>` blocks in JSX.** All keyframes and component-scoped CSS live in `globals.css`. The only legitimate `style={{...}}` use is passing per-instance dynamic values (e.g., CSS variables `--tx`, `--ty`).
+
 ---
- 
-## TypeScript Rules
- 
-- Strict mode enabled. No `any` type — ever. Use `unknown` and narrow.
-- Define interfaces for all props, API responses, and data shapes.
-- Props interfaces named `ComponentNameProps`.
-- Use type inference where possible. Don't annotate the obvious.
-- Enums only when needed. Prefer union types: `type Status = 'idle' | 'loading' | 'error'`.
-- No non-null assertions (`!`). Handle null/undefined properly.
-```tsx
-// BAD
-const data: any = await fetch('/api').then(r => r.json());
- 
-// GOOD
-interface User { id: string; name: string; email: string; }
-const data: User = await fetch('/api').then(r => r.json());
-```
- 
+
+## TypeScript
+
+- Strict mode. No `any` — use `unknown` and narrow.
+- Interfaces for all props, API responses, data shapes.
+- Prefer union types over enums: `type Status = 'idle' | 'loading' | 'error'`.
+- No `!` non-null assertions. Handle null/undefined properly.
+- Infer where obvious; annotate where it adds clarity.
+
 ---
- 
+
+## Validation & Error Handling
+
+- All form/API input goes through Zod schemas. Reject invalid input — never silently sanitize.
+- Every `try` has a meaningful `catch`. Never swallow errors.
+- Never expose credentials, env values, or stack traces in UI.
+- Always check return codes and validate response shapes from external services.
+
+---
+
 ## File & Folder Structure
- 
 ```
 src/
-  app/              # Next.js App Router pages & layouts
-    (routes)/       # Route groups
-    api/            # Route handlers
-    layout.tsx      # Root layout
-    page.tsx        # Home page
+  app/                              # App Router pages & layouts
+    layout.tsx
+    page.tsx                        # Server Component
+    globals.css                     # Tailwind v4 @theme + keyframes
   components/
-    ui/             # Generic reusable UI (Button, Card, Modal)
-    features/       # Feature-specific components (LoginForm, Dashboard)
-  hooks/            # Custom React hooks
-  services/         # API calls, external service wrappers
-  utils/            # Pure helper functions
-  constants/        # Named constants, config values
-  types/            # Shared TypeScript types/interfaces
-public/
-  images/           # Static images, logo SVGs
-  fonts/            # Self-hosted fonts
+    ui/                             # Atomic generic UI (BulletDot, Divider, BackgroundGlow)
+    features/
+      LoaderGate.tsx                # Pattern: client island wrapping a heavy client tree
+      landing/                      # Feature folder: composed sections + page shell
+      loading/                      # Feature folder: animated screen + atomic burst pieces
+  hooks/                            # Reusable client hooks (useEnterTransition, useLoadingPhases, useCoreAnimation)
+  services/                         # Pure functions, deterministic generators (burst.ts)
+  constants/                        # Named constants by domain (landing.ts, loading.ts, motion.ts)
+  types/                            # Shared types (loading.ts)
+  utils/                            # Pure helpers (only when truly generic)
+public/                             # SVG logos, static assets
 ```
- 
-One component per file. File name matches export name. No barrel exports (`index.ts` re-exports) unless the folder has 5+ files.
- 
+One component per file. Filename = export name. **No barrel `index.ts`** (Next.js + Turbopack tree-shake direct imports better).
+
+### Where new code goes
+- New page section that's content-only → `components/features/<feature>/`.
+- New animated piece (shockwave, particle variant, glow) → atomic component in `components/ui/` or `features/<feature>/`.
+- New state machine, RAF loop, listener → custom hook in `hooks/`.
+- New pure function (generators, math, formatters) → `services/` (if domain-specific) or `utils/` (if generic).
+- New content string, timing, count, asset path → `constants/<domain>.ts`. Never hardcode in components.
+- New shared shape → `types/<domain>.ts`.
+
 ---
- 
-## Git Rules
- 
-- Commit messages: imperative, short. `"Add login page"` not `"Added the login page component"`
+
+## Git
+
+- Imperative, short commit messages. `"Add login page"` not `"Added the login page component"`.
 - One feature per branch. One concern per commit.
-- Never commit: `.env`, `node_modules`, build output, console.logs.
+- Never commit: `.env`, `node_modules`, build output, `console.log` statements.
+
 ---
- 
-## Token & Response Rules
- 
+
+## Response Style
+
 **Be minimal. No filler.**
- 
-- After completing a task: confirm in ≤5 words. Example: `"Login page done."`, `"Component created."`, `"Bug fixed."`
-- No summaries of what was done unless asked
-- No "Here's what I did" paragraphs
-- No "Let me know if you need anything else"
-- No repeating back the requirements
-- No explaining obvious code with comments unless logic is non-trivial
-- No markdown formatting in responses unless asked
-- Do not list files created/modified unless asked
-- Do not suggest next steps unless asked
-**Code comments:** only for non-obvious logic. No `// increment i` style comments.
- 
-**Imports:** keep minimal. Remove unused imports.
- 
-**Console logs:** remove before commit. Use proper error handling instead.
- 
+- Confirm completed tasks in ≤5 words: `"Login page done."`
+- No summaries unless asked. No "Here's what I did". No "Let me know if…".
+- No markdown formatting in responses unless asked.
+- Don't list files modified unless asked. Don't suggest next steps unless asked.
+- Code comments only for non-obvious logic. No `// increment i`.
+- Remove unused imports.
+
 ---
- 
-## Tech Stack
- 
-- **Framework:** Next.js 14+ (App Router)
-- **Language:** TypeScript (strict)
-- **Styling:** Tailwind CSS (brand color tokens)
-- **Components:** React functional components + hooks only
-- **Images:** next/image
-- **Fonts:** next/font with Montserrat
-- **State:** React state (useState, useReducer). No external state library unless justified.
-- **Validation:** Zod for form/API validation
-## Commands
- 
-- `npm run dev` — dev server
-- `npm run build` — production build
-- `npm run lint` — linting
----
- 
-## Summary
- 
-Write clean code. One responsibility per unit. Validate inputs. Handle failures. Server components by default. Tailwind only. TypeScript strict. Keep responses short. Use the brand colors. No spaghetti.
+
+## When Stuck
+
+- Ask one specific clarifying question rather than guessing.
+- If two attempts fail, stop and surface the blocker before continuing.
+- For UI work, manually verify in the browser — don't claim success based only on type-check.
