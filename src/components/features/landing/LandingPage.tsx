@@ -1,6 +1,7 @@
 import Contact from "@/components/features/landing/Contact";
 import Ecosystem from "@/components/features/landing/Ecosystem";
 import Features from "@/components/features/landing/Features";
+import Gallery from "@/components/features/landing/Gallery";
 import Hero from "@/components/features/landing/Hero";
 import HowItWorks from "@/components/features/landing/HowItWorks";
 import Mission from "@/components/features/landing/Mission";
@@ -25,6 +26,7 @@ export default function LandingPage() {
         <Ecosystem />
         <HowItWorks />
         <StatsBanner />
+        <Gallery />
         <Contact />
       </main>
       <SiteFooter />

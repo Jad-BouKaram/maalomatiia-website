@@ -63,7 +63,7 @@ export default function Contact() {
   return (
     <section
       id={CONTACT_ANCHOR_ID}
-      className="scroll-mt-24 bg-brand-dark-surface px-6 py-24 md:py-32"
+      className="scroll-mt-24 bg-brand-dark-surface px-6 py-20 md:py-28"
     >
       <div className="mx-auto max-w-6xl">
         <Reveal>
@@ -74,9 +74,9 @@ export default function Contact() {
             <p className="mt-4 text-base text-white/60">{CONTACT_SUBTITLE}</p>
           </div>
 
-          <div className="mt-14 grid grid-cols-1 gap-12 lg:grid-cols-2">
+          <div className="mt-12 grid grid-cols-1 gap-10 md:mt-14 md:grid-cols-2 md:gap-12">
             <div className="flex flex-col gap-8">
-              <p className="text-base leading-relaxed text-white/60">
+              <p className="text-center text-base leading-relaxed text-white/60 lg:text-left">
                 {CONTACT_INTRO}
               </p>
               <ul className="flex flex-col gap-3">
@@ -90,7 +90,7 @@ export default function Contact() {
                         <span className="block text-xs uppercase tracking-wide text-white/60">
                           {label}
                         </span>
-                        <span className="block text-base text-white/85 transition-colors group-hover:text-brand-teal-light">
+                        <span className="block break-words text-base text-white/85 transition-colors group-hover:text-brand-teal-light">
                           {value}
                           {external ? (
                             <span className="sr-only"> (opens in a new tab)</span>
@@ -107,12 +107,12 @@ export default function Contact() {
                           {...(external
                             ? { target: "_blank", rel: "noopener noreferrer" }
                             : {})}
-                          className={`group flex items-center gap-4 ${ROW_FOCUS}`}
+                          className={`group flex items-start gap-4 ${ROW_FOCUS}`}
                         >
                           {inner}
                         </a>
                       ) : (
-                        <div className="flex items-center gap-4">{inner}</div>
+                        <div className="flex items-start gap-4">{inner}</div>
                       )}
                     </li>
                   );

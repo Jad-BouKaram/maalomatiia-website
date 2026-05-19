@@ -10,7 +10,7 @@ const FEATURE_ICONS = [TargetIcon, RefreshIcon, UsersIcon, KeyIcon] as const;
 
 export default function Features() {
   return (
-    <section className="bg-white px-6 py-20">
+    <section className="bg-white px-6 py-20 md:py-28">
       <div className="mx-auto max-w-6xl">
         <Reveal>
           <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-4">

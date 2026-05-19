@@ -12,7 +12,7 @@ const SITE_DESCRIPTION =
   "Maaloomatiia Academy builds Data & AI capability for enterprise teams across MENA — platform-aligned, practitioner-led training that turns technology adoption into real delivery.";
 
 export const metadata: Metadata = {
-  title: "Maaloomatiia Academy — Data & AI Capability Partner",
+  title: "Maaloomatiia",
   description: SITE_DESCRIPTION,
   openGraph: {
     title: "Maaloomatiia Academy — Data & AI Capability Partner",
