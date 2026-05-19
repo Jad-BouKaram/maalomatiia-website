@@ -1,40 +1,33 @@
-"use client";
-
-import BackgroundGlow from "@/components/ui/BackgroundGlow";
-import Divider from "@/components/ui/Divider";
-import BulletList from "@/components/features/landing/BulletList";
-import ComingSoon from "@/components/features/landing/ComingSoon";
-import Description from "@/components/features/landing/Description";
+import Contact from "@/components/features/landing/Contact";
+import Ecosystem from "@/components/features/landing/Ecosystem";
+import Features from "@/components/features/landing/Features";
 import Hero from "@/components/features/landing/Hero";
-import {
-  ENTER_ANIMATION_DELAY_MS,
-  ENTER_ANIMATION_DURATION_MS,
-  ENTER_ANIMATION_OFFSET_PX,
-} from "@/constants/motion";
-import { useEnterTransition } from "@/hooks/useEnterTransition";
+import HowItWorks from "@/components/features/landing/HowItWorks";
+import Mission from "@/components/features/landing/Mission";
+import Navbar from "@/components/features/landing/Navbar";
+import SiteFooter from "@/components/features/landing/SiteFooter";
+import StatsBanner from "@/components/features/landing/StatsBanner";
 
 export default function LandingPage() {
-  const visible = useEnterTransition(ENTER_ANIMATION_DELAY_MS);
-
   return (
-    <main
-      className="lp-root relative w-full overflow-hidden bg-brand-dark-navy text-white"
-      style={{
-        opacity: visible ? 1 : 0,
-        transform: visible
-          ? "translateY(0)"
-          : `translateY(${ENTER_ANIMATION_OFFSET_PX}px)`,
-        transition: `opacity ${ENTER_ANIMATION_DURATION_MS}ms ease-out, transform ${ENTER_ANIMATION_DURATION_MS}ms ease-out`,
-      }}
-    >
-      <BackgroundGlow />
-      <div className="lp-container relative z-10 mx-auto flex h-full w-full flex-col items-center justify-center">
+    <>
+      <a
+        href="#main"
+        className="sr-only focus-visible:not-sr-only focus-visible:fixed focus-visible:left-4 focus-visible:top-4 focus-visible:z-[60] focus-visible:rounded-lg focus-visible:bg-brand-teal focus-visible:px-4 focus-visible:py-2 focus-visible:text-sm focus-visible:font-semibold focus-visible:text-white"
+      >
+        Skip to main content
+      </a>
+      <Navbar />
+      <main id="main" tabIndex={-1} className="outline-none">
         <Hero />
-        <Description />
-        <BulletList />
-        <Divider />
-        <ComingSoon />
-      </div>
-    </main>
+        <Mission />
+        <Features />
+        <Ecosystem />
+        <HowItWorks />
+        <StatsBanner />
+        <Contact />
+      </main>
+      <SiteFooter />
+    </>
   );
 }

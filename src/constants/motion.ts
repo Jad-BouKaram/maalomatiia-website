@@ -1,3 +1,0 @@
-export const ENTER_ANIMATION_DELAY_MS = 80;
-export const ENTER_ANIMATION_DURATION_MS = 700;
-export const ENTER_ANIMATION_OFFSET_PX = 12;

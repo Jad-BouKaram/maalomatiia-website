@@ -46,17 +46,21 @@ A task is **not** complete until:
 ## Brand System
 
 ### Colors
-| Token            | Hex       | Usage                          |
-|------------------|-----------|--------------------------------|
-| `--teal-light`   | `#3cd0c2` | Highlights, hover states       |
-| `--teal`         | `#28b8aa` | Primary brand color            |
-| `--teal-dark`    | `#1a9a8c` | Buttons, active states         |
-| `--teal-deeper`  | `#127a6e` | Shadows, secondary ring        |
-| `--dark-bg`      | `#0a2a3a` | Dark backgrounds               |
-| `--dark-navy`    | `#060e14` | Deepest background             |
-| `--accent-glow`  | `#00ffe8` | Glows, highlights, animations  |
-| `--white`        | `#ffffff` | Text on dark backgrounds       |
-| `--white-muted`  | `rgba(255,255,255,0.5)` | Secondary text    |
+| Token (`brand-*`) | Hex       | Usage                                  |
+|-------------------|-----------|----------------------------------------|
+| `teal-light`      | `#3cd0c2` | Highlights, hover states               |
+| `teal`            | `#28b8aa` | Primary brand color, icon accents      |
+| `teal-dark`       | `#1a9a8c` | Buttons, active states                 |
+| `teal-deeper`     | `#127a6e` | Deep-teal headings, stats banner        |
+| `dark-bg`         | `#0a2a3a` | Dark backgrounds                       |
+| `dark-navy`       | `#060e14` | Loading screen background              |
+| `accent-glow`     | `#00ffe8` | Glows, loading animation               |
+| `ink`             | `#0b1416` | Headings & body text on white sections |
+| `muted`           | `#5b6b78` | Secondary text on white sections       |
+| `surface`         | `#f5f7f8` | White-section card background          |
+| `border`          | `#e6eaec` | Card & divider borders on white        |
+| `dark-surface`    | `#0a1a24` | Elevated dark section (Contact)        |
+| `error`           | `#f87171` | Form validation errors only            |
 
 ### Tailwind v4 Theme
 This project uses **Tailwind v4** — there is **no `tailwind.config.ts`**. Brand tokens and reusable animations live in `src/app/globals.css` under `@theme inline`:
@@ -79,7 +83,13 @@ Add new colors or animations there. **Do not** create a `tailwind.config.ts`.
 Two overlapping teal rings. Right ring overlaps in front of left. Crescent of left ring visible through right ring's inner hole. SVG only. Never stretch or recolor.
 
 ### Design Tone
-Dark navy/teal backgrounds. Glowing teal accents. Subtle particle effects and light streaks in hero sections. Modern, clean, professional.
+Dark-first, with white "breather" sections:
+- **Dark sections** (`brand-dark-navy`) — Hero, How It Works, Location, Footer. White headings, `text-white/55` body, teal-gradient accents, `bg-white/5` cards with `border-brand-teal/10`.
+- **White sections** (`bg-white`) — Mission, Features, Ecosystem form one contiguous white block. `brand-ink` headings, `brand-muted` body, `brand-surface` cards with `brand-border`.
+- **Teal stats banner** — `bg-gradient-to-br` across `brand-teal-dark`/`brand-teal`.
+- **Contact** — `brand-dark-surface` for slight contrast against the navy.
+
+The loading screen (dark navy) fades out straight into the dark hero — seamless. Modern, clean, professional throughout.
 
 ---
 
@@ -100,14 +110,22 @@ export default function Home() {
 ### Feature folder pattern
 A feature is a folder under `components/features/` containing:
 - the page-level composer (`LandingPage.tsx`, `LoadingScreen.tsx`) — under 80 lines, only composes
-- atomic section components (`Hero`, `Description`, `BulletList`, `ComingSoon`) — 15–40 lines each
-- per-feature visual sub-components when needed (`BurstEffects`, `Particles`, `Streaks`, `Shockwaves`)
+- atomic section components (`Hero`, `Mission`, `Features`, `Ecosystem`, `HowItWorks`, `StatsBanner`, `Location`, `Contact`, `Navbar`, `SiteFooter`) — 15–40 lines each
+- per-feature card / sub-components when needed (`FeatureCard`, `EcosystemCard`, `AdoptStep`, `StatCounter`, `ContactForm`, `BurstEffects`, `Particles`)
+- a section's icon set is paired in the section component (a local `*_ICONS` array zipped with the constant data) — keep icon imports out of `constants/`
+
+### Server vs Client in sections
+Sections are **Server Components**. They wrap their content in `<Reveal>` (a client scroll-in wrapper) — a Server Component may render a Client Component and pass it server-rendered `children`. Only genuinely interactive leaves are `'use client'`: `Reveal`, `StatCounter`, `ContactForm`, `LoaderGate`, `LoadingScreen`.
 
 ### Hook responsibilities
 - **State machine hooks** (`useLoadingPhases`): own phase transitions and their timers. Return `{ phase, fadeOut }`.
 - **Animation hooks** (`useCoreAnimation`): own RAF loops, ref mutations, easing. Return refs + accept an `onComplete` callback.
-- **Lifecycle hooks** (`useEnterTransition`): one purpose, parameterized.
-- Hooks must clean up: `clearTimeout`, `cancelAnimationFrame`, remove listeners.
+- **Observer/utility hooks** (`useInView`, `useCountUp`): one job, return a small typed result. `useCountUp` and `Reveal` honor `prefers-reduced-motion`.
+- Hooks must clean up: `clearTimeout`, `cancelAnimationFrame`, `observer.disconnect()`.
+- A component with no state/effects/events stays a Server Component — don't add a hook (or `'use client'`) it doesn't need.
+
+### Forms
+Every form validates through a Zod schema in `services/<domain>.ts` (e.g. `services/contact.ts`) exposing a `validate*` helper. The form component is `'use client'`, shows per-field errors, and never silently accepts bad input.
 
 ### Deterministic generators (SSR-safe)
 Any "random" visual data (particle positions, streak angles) **must** be deterministic — server and client must produce identical output to avoid hydration mismatches. Use the seeded PRNG pattern in `services/burst.ts` (mulberry32). **Never** call `Math.random()` at module scope or during render.
@@ -274,15 +292,16 @@ src/
     page.tsx                        # Server Component
     globals.css                     # Tailwind v4 @theme + keyframes
   components/
-    ui/                             # Atomic generic UI (BulletDot, Divider, BackgroundGlow)
+    ui/                             # Atomic generic UI (Logo, CtaButton, Reveal)
+      icons/                        # One SVG component per icon, props { className? }
     features/
       LoaderGate.tsx                # Pattern: client island wrapping a heavy client tree
-      landing/                      # Feature folder: composed sections + page shell
+      landing/                      # Feature folder: the homepage sections (dark + white)
       loading/                      # Feature folder: animated screen + atomic burst pieces
-  hooks/                            # Reusable client hooks (useEnterTransition, useLoadingPhases, useCoreAnimation)
-  services/                         # Pure functions, deterministic generators (burst.ts)
-  constants/                        # Named constants by domain (landing.ts, loading.ts, motion.ts)
-  types/                            # Shared types (loading.ts)
+  hooks/                            # Reusable client hooks (useLoadingPhases, useCoreAnimation, useInView, useCountUp)
+  services/                         # Pure functions, generators, Zod schemas (burst.ts, contact.ts)
+  constants/                        # Named constants by domain (landing.ts, loading.ts)
+  types/                            # Shared types (landing.ts, loading.ts)
   utils/                            # Pure helpers (only when truly generic)
 public/                             # SVG logos, static assets
 ```

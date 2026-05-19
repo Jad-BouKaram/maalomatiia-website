@@ -11,6 +11,13 @@
   --color-brand-dark-navy: #060e14;
   --color-brand-accent-glow: #00ffe8;
 
+  --color-brand-ink: #0b1416;
+  --color-brand-muted: #5b6b78;
+  --color-brand-surface: #f5f7f8;
+  --color-brand-border: #e6eaec;
+  --color-brand-dark-surface: #0a1a24;
+  --color-brand-error: #f87171;
+
   --animate-ls-flash: lsFlash 520ms cubic-bezier(0.16, 1, 0.3, 1) forwards;
   --animate-ls-logo-burst: lsLogoBurst 1100ms cubic-bezier(0.22, 1, 0.36, 1) forwards;
   --animate-ls-shockwave: lsShockwave 900ms cubic-bezier(0.22, 1, 0.36, 1) both;
@@ -18,133 +25,15 @@
   --animate-ls-streak: lsStreak 700ms cubic-bezier(0.22, 1, 0.36, 1) forwards;
 }
 
+html {
+  scroll-behavior: smooth;
+}
+
 html,
 body {
   background: var(--color-brand-dark-navy);
   color: #ffffff;
   font-family: var(--font-montserrat), system-ui, sans-serif;
-}
-
-.lp-root {
-  height: 100vh;
-  height: 100dvh;
-}
-
-.lp-container {
-  max-width: 64rem;
-  padding-left: 1.25rem;
-  padding-right: 1.25rem;
-  padding-top: 1rem;
-  padding-bottom: 1rem;
-}
-
-.lp-logo {
-  position: relative;
-  width: min(78vw, 460px);
-  aspect-ratio: 520 / 150;
-}
-
-.lp-tagline {
-  font-size: 11px;
-  letter-spacing: 0.4em;
-}
-
-.lp-description {
-  font-size: 15px;
-}
-
-.lp-bullet {
-  font-size: 14px;
-}
-
-.lp-coming {
-  font-size: clamp(28px, 6vw, 44px);
-  letter-spacing: 0.18em;
-}
-
-.lp-stay {
-  font-size: 13px;
-}
-
-@media (min-width: 640px) {
-  .lp-tagline {
-    font-size: 12px;
-  }
-  .lp-description {
-    font-size: 16px;
-  }
-  .lp-bullet {
-    font-size: 15px;
-  }
-  .lp-stay {
-    font-size: 14px;
-  }
-}
-
-@media (min-width: 768px) {
-  .lp-container {
-    padding-top: 1.5rem;
-    padding-bottom: 1.5rem;
-  }
-  .lp-logo {
-    width: min(60vw, 500px);
-  }
-  .lp-description {
-    font-size: 17px;
-  }
-  .lp-bullet {
-    font-size: 16px;
-  }
-}
-
-@media (min-width: 1024px) {
-  .lp-logo {
-    width: min(45vw, 520px);
-  }
-  .lp-description {
-    font-size: 18px;
-  }
-  .lp-bullet {
-    font-size: 16px;
-  }
-}
-
-@media (max-width: 480px) {
-  .lp-container {
-    padding-top: 0.5rem;
-    padding-bottom: 0.5rem;
-  }
-  .lp-description {
-    font-size: 13px;
-  }
-  .lp-bullet {
-    font-size: 13px;
-    line-height: 1.5;
-  }
-  .lp-tagline {
-    font-size: 10px;
-    letter-spacing: 0.32em;
-  }
-  .lp-stay {
-    font-size: 11px;
-    letter-spacing: 0.14em;
-  }
-}
-
-@media (max-width: 360px) {
-  .lp-description {
-    font-size: 12px;
-  }
-  .lp-bullet {
-    font-size: 12px;
-  }
-}
-
-@media (max-height: 700px) {
-  .lp-container {
-    padding-top: 0.5rem;
-    padding-bottom: 0.5rem;
-  }
 }
 
 .ls-logo-wrap {
@@ -370,6 +259,9 @@ body {
 }
 
 @media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
   .ls-logo,
   .ls-core,
   .ls-shockwave,
