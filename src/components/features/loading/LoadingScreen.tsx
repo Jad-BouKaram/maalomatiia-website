@@ -39,6 +39,11 @@ export default function LoadingScreen({ onComplete }: LoadingScreenProps) {
 
   const isBurst = phase === "burst";
   const logoState = getLogoState(phase);
+  const canSkip = phase !== "burst" && phase !== "done";
+
+  function handleSkip() {
+    onComplete?.();
+  }
 
   return (
     <div
@@ -68,11 +73,22 @@ export default function LoadingScreen({ onComplete }: LoadingScreenProps) {
               priority
               sizes={LOADING_LOGO_SIZES}
               className="object-contain"
+              unoptimized
             />
           </div>
           {isBurst && <BurstEffects />}
         </div>
       </div>
+
+      {canSkip ? (
+        <button
+          type="button"
+          onClick={handleSkip}
+          className="absolute bottom-8 left-1/2 inline-flex min-h-11 -translate-x-1/2 items-center rounded-full px-5 text-xs uppercase tracking-[0.2em] text-white/45 transition-colors hover:text-white focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-accent-glow"
+        >
+          Skip intro
+        </button>
+      ) : null}
     </div>
   );
 }
