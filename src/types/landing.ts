@@ -35,3 +35,8 @@ export interface StatContent {
   suffix: string;
   label: string;
 }
+
+export interface GalleryImage {
+  src: string;
+  alt: string;
+}

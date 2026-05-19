@@ -3,6 +3,7 @@ import type {
   EcosystemCardContent,
   EcosystemStat,
   FeatureContent,
+  GalleryImage,
   StatContent,
 } from "@/types/landing";
 
@@ -154,3 +155,27 @@ export const CONTACT_LINKEDIN = "linkedin.com/company/maaloomatiia";
 // Footer
 export const FOOTER_TAGLINE = "Innovate. Enable. Elevate.";
 export const FOOTER_COPYRIGHT = "© 2026 Maaloomatiia. All rights reserved.";
+
+// Imagery — photo files live directly in the public/ folder
+export const HERO_IMAGE = "/hero.jpeg";
+export const MISSION_IMAGE = "/mission.jpeg";
+export const MISSION_IMAGE_ALT =
+  "A diverse enterprise team working through a data project together";
+
+export const GALLERY_TITLE = "In the room with your teams";
+export const GALLERY_SUBTITLE =
+  "Hands-on, practitioner-led sessions — delivered on-site and across the region.";
+export const GALLERY_IMAGES: readonly GalleryImage[] = [
+  {
+    src: "/gallery-1.jpeg",
+    alt: "Two colleagues learning together on a laptop",
+  },
+  {
+    src: "/gallery-2.jpeg",
+    alt: "A team collaborating around a laptop in the office",
+  },
+  {
+    src: "/gallery-5.jpeg",
+    alt: "An enterprise team in a working session",
+  },
+];

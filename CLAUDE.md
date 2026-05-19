@@ -84,7 +84,7 @@ Two overlapping teal rings. Right ring overlaps in front of left. Crescent of le
 
 ### Design Tone
 Dark-first, with white "breather" sections:
-- **Dark sections** (`brand-dark-navy`) — Hero, How It Works, Location, Footer. White headings, `text-white/55` body, teal-gradient accents, `bg-white/5` cards with `border-brand-teal/10`.
+- **Dark sections** (`brand-dark-navy`) — Hero (photo background under an 85% scrim), How It Works, Gallery, Footer. White headings, `text-white/55` body, teal-gradient accents, `bg-white/5` cards with `border-brand-teal/10`.
 - **White sections** (`bg-white`) — Mission, Features, Ecosystem form one contiguous white block. `brand-ink` headings, `brand-muted` body, `brand-surface` cards with `brand-border`.
 - **Teal stats banner** — `bg-gradient-to-br` across `brand-teal-dark`/`brand-teal`.
 - **Contact** — `brand-dark-surface` for slight contrast against the navy.
@@ -110,12 +110,13 @@ export default function Home() {
 ### Feature folder pattern
 A feature is a folder under `components/features/` containing:
 - the page-level composer (`LandingPage.tsx`, `LoadingScreen.tsx`) — under 80 lines, only composes
-- atomic section components (`Hero`, `Mission`, `Features`, `Ecosystem`, `HowItWorks`, `StatsBanner`, `Location`, `Contact`, `Navbar`, `SiteFooter`) — 15–40 lines each
-- per-feature card / sub-components when needed (`FeatureCard`, `EcosystemCard`, `AdoptStep`, `StatCounter`, `ContactForm`, `BurstEffects`, `Particles`)
+- atomic section components (`Hero`, `Mission`, `Features`, `Ecosystem`, `HowItWorks`, `StatsBanner`, `Gallery`, `Contact`, `Navbar`, `SiteFooter`) — 15–40 lines each
+- per-feature card / sub-components when needed (`FeatureCard`, `EcosystemCard`, `AdoptStep`, `StatCounter`, `ContactForm`, `FormField`, `BurstEffects`, `Particles`)
+- photos go through `next/image` (`fill` + `object-cover` + `sizes`); files live in `public/`
 - a section's icon set is paired in the section component (a local `*_ICONS` array zipped with the constant data) — keep icon imports out of `constants/`
 
 ### Server vs Client in sections
-Sections are **Server Components**. They wrap their content in `<Reveal>` (a client scroll-in wrapper) — a Server Component may render a Client Component and pass it server-rendered `children`. Only genuinely interactive leaves are `'use client'`: `Reveal`, `StatCounter`, `ContactForm`, `LoaderGate`, `LoadingScreen`.
+Sections are **Server Components**. They wrap their content in `<Reveal>` (a client scroll-in wrapper) — a Server Component may render a Client Component and pass it server-rendered `children`. Only genuinely interactive leaves are `'use client'`: `Reveal`, `StatCounter`, `ContactForm`, `FormField`, `LoaderGate`, `LoadingScreen`.
 
 ### Hook responsibilities
 - **State machine hooks** (`useLoadingPhases`): own phase transitions and their timers. Return `{ phase, fadeOut }`.

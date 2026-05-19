@@ -12,7 +12,7 @@ export default function StatCounter({ target, suffix, label }: StatContent) {
 
   return (
     <div ref={ref} className="text-center">
-      <p className="text-5xl font-bold tabular-nums text-white sm:text-6xl">
+      <p className="text-4xl font-bold tabular-nums text-white sm:text-5xl lg:text-6xl">
         {value.toLocaleString()}
         {suffix}
       </p>

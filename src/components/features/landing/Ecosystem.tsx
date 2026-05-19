@@ -11,7 +11,7 @@ import {
 
 export default function Ecosystem() {
   return (
-    <section className="bg-white px-6 pb-28 pt-20">
+    <section className="bg-white px-6 py-20 md:py-28">
       <div className="mx-auto max-w-6xl">
         <Reveal>
           <div className="mx-auto max-w-2xl text-center">
