@@ -97,7 +97,7 @@ export default function ContactForm() {
 
       {status === "sent" ? (
         <p className="text-center text-sm text-brand-teal-light">
-          Thanks — your message is on its way. We&apos;ll be in touch shortly.
+          Thanks. Your message is on its way. We&apos;ll be in touch shortly.
         </p>
       ) : null}
 

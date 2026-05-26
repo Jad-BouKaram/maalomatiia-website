@@ -8,7 +8,6 @@ export type IconComponent = ComponentType<IconProps>;
 
 export interface FeatureContent {
   title: string;
-  subtitle: string;
   description: string;
 }
 
@@ -19,15 +18,16 @@ export interface AdoptStepContent {
   description: string;
 }
 
-export interface EcosystemCardContent {
-  eyebrow: string;
+export interface PillarContent {
   title: string;
-  description: string;
+  tagline: string;
+  body: string;
 }
 
-export interface EcosystemStat {
-  value: string;
-  label: string;
+export interface StoryStepContent {
+  number: string;
+  title: string;
+  description: string;
 }
 
 export interface StatContent {

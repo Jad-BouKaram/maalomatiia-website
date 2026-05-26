@@ -9,13 +9,13 @@ const montserrat = Montserrat({
 });
 
 const SITE_DESCRIPTION =
-  "Maaloomatiia Academy builds Data & AI capability for enterprise teams across MENA — platform-aligned, practitioner-led training that turns technology adoption into real delivery.";
+  "Maaloomatiia Academy builds Data & AI capability for enterprise teams across MENA. Platform-aligned, practitioner-led training that turns technology adoption into real delivery.";
 
 export const metadata: Metadata = {
   title: "Maaloomatiia",
   description: SITE_DESCRIPTION,
   openGraph: {
-    title: "Maaloomatiia Academy — Data & AI Capability Partner",
+    title: "Maaloomatiia Academy: Data & AI Capability Partner",
     description: SITE_DESCRIPTION,
     siteName: "Maaloomatiia Academy",
     locale: "en_US",

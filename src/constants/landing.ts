@@ -1,10 +1,10 @@
 import type {
   AdoptStepContent,
-  EcosystemCardContent,
-  EcosystemStat,
   FeatureContent,
   GalleryImage,
+  PillarContent,
   StatContent,
+  StoryStepContent,
 } from "@/types/landing";
 
 export const BRAND_NAME = "maaloomatiia";
@@ -12,69 +12,57 @@ export const CONTACT_ANCHOR_ID = "contact";
 
 // Hero
 export const HERO_HEADLINE_LINE_1 = "The Data & AI Capability Partner";
-export const HERO_HEADLINE_LINE_2 = "for Enterprise Teams Across MENA";
+export const HERO_HEADLINE_LINE_2 = "FOR MENA";
 export const HERO_DESCRIPTION =
-  "Maaloomatiia doesn't just train — we build the capability your teams need to own the technology you've already invested in. On your platform, your data, your use cases.";
+  "We build Data & AI capability for the teams, organizations, and nations shaping the region. Practitioner-led, bilingual, delivered where you work.";
 export const HERO_CTA_LABEL = "Get in Touch";
 
 // Mission
 export const MISSION_TITLE = "Our Mission";
 export const MISSION_TEXT =
-  "Maaloomatiia exists to close the gap between investing in technology and building real organizational capability. Across MENA, enterprise platforms were deployed faster than the skills to run them — and the gap was never the technology, it was people who could own and evolve what was built. Backed by MAGNOOS and the Midis ecosystem, we fuse enterprise delivery experience with hands-on, practitioner-led programs that create skilled, self-sufficient technology teams.";
+  "We exist to close the gap between investing in Data & AI technology and building the people who can own it.";
 
 // Feature cards
 export const FEATURES: readonly FeatureContent[] = [
   {
-    title: "Built for Your Environment",
-    subtitle: "Scoped to Your Data",
+    title: "Practitioner-Led",
     description:
-      "Every program is scoped and customized for your data and workflows — each exercise maps to a real job to be done.",
+      "Instructors are Magnoos delivery practitioners who have shipped the systems they teach.",
   },
   {
-    title: "Always Current",
-    subtitle: "Updated Every Release",
+    title: "MENA-Native",
     description:
-      "Content is refreshed through direct platform partnerships, so teams learn what the product actually does today.",
+      "Arabic and English delivery, on the ground across KSA, UAE, Qatar, and Lebanon.",
   },
   {
-    title: "Distributed Capability",
-    subtitle: "Across the Whole Team",
+    title: "Scoped to You",
     description:
-      "Practitioners who built the systems transfer experience across your entire team — not just a select few.",
+      "Programs are designed around your team, your data, your stack, or your national workforce vision.",
   },
   {
-    title: "Ownership Stays with You",
-    subtitle: "Capability That Remains",
+    title: "Built to Stick",
     description:
-      "Your team learns to operate, maintain, and evolve what was built. When we leave, the capability doesn't.",
+      "Hands-on labs, real outputs, retention tracked. Capability that stays after we leave.",
   },
 ];
 
-// Ecosystem
-export const ECOSYSTEM_TITLE = "Backed by Magnoos. Connected to Midis.";
-export const ECOSYSTEM_DESCRIPTION =
-  "Maaloomatiia isn't a standalone training vendor. We're built on a regional technology ecosystem with the reach, infrastructure, and trust to deliver at enterprise scale.";
-export const ECOSYSTEM_STATS: readonly EcosystemStat[] = [
-  { value: "2,600+", label: "Technical Professionals" },
-  { value: "30+", label: "Years in MENA" },
-  { value: "13", label: "Countries" },
-];
-export const ECOSYSTEM_CARDS: readonly EcosystemCardContent[] = [
+// Two paths: One academy
+export const PILLARS_HEADING_START = "Two paths.";
+export const PILLARS_HEADING_ACCENT = "One academy.";
+export const PILLARS: readonly PillarContent[] = [
   {
-    eyebrow: "Consultancy Arm",
-    title: "Magnoos / MDS",
-    description:
-      "A regional Data & AI consultancy that builds the very platforms our Academy teaches teams to own.",
+    title: "Technology Platform Adoption",
+    tagline: "Your team learns to own the tools you've invested in.",
+    body: "Anchored on Dataiku, Informatica, Cloudera, Alteryx. Delivered through the ADOPT methodology: five phases from assessment to retention.",
   },
   {
-    eyebrow: "Parent Ecosystem",
-    title: "Midis Group",
-    description:
-      "One of the largest technology groups in MENA — enterprise reach, infrastructure, and regional trust.",
+    title: "Role & Skill-Based Programs",
+    tagline: "Capability building beyond any single platform.",
+    body: "Career-track bootcamps, AI productivity programs for business and technical teams, and national capacity programs.",
   },
 ];
-export const ECOSYSTEM_PARTNERS_LABEL = "Platform Partnerships";
-export const ECOSYSTEM_PARTNERS: readonly string[] = [
+export const PARTNERS_LABEL = "Platform Partnerships";
+export const PARTNERS: readonly string[] = [
   "Dataiku",
   "Informatica",
   "Cloudera",
@@ -88,17 +76,17 @@ export const ECOSYSTEM_PARTNERS: readonly string[] = [
   "Google Cloud",
 ];
 
-// How It Works — ADOPT framework
+// How It Works: ADOPT framework
 export const HOW_TITLE = "How It Works";
 export const HOW_DESCRIPTION =
-  "Our ADOPT framework turns platform investment into enterprise capability — five phases, from the first assessment to lasting knowledge retention.";
+  "Our ADOPT framework turns platform investment into enterprise capability. Five phases, from the first assessment to lasting knowledge retention.";
 export const ADOPT_STEPS: readonly AdoptStepContent[] = [
   {
     letter: "A",
     title: "Assess",
     subtitle: "Map your starting point.",
     description:
-      "Migrating or newly installed — we scope the training, pick the tier, and curate the labs.",
+      "Migrating or newly installed. We scope the training, pick the tier, and curate the labs.",
   },
   {
     letter: "D",
@@ -112,7 +100,7 @@ export const ADOPT_STEPS: readonly AdoptStepContent[] = [
     title: "Oversee",
     subtitle: "Coach every lab.",
     description:
-      "Practitioners guide your team through hands-on labs — unblocking, not lecturing.",
+      "Practitioners guide your team through hands-on labs. Unblocking, not lecturing.",
   },
   {
     letter: "P",
@@ -130,6 +118,34 @@ export const ADOPT_STEPS: readonly AdoptStepContent[] = [
   },
 ];
 
+// Our Story: slide 4
+export const STORY_EYEBROW = "Our Story";
+export const STORY_HEADING_START = "How a consultancy";
+export const STORY_HEADING_ACCENT = "became an academy.";
+export const STORY_STEPS: readonly StoryStepContent[] = [
+  {
+    number: "1",
+    title: "We built the systems",
+    description:
+      "Enterprise platforms were deployed across MENA, but adoption lagged behind investment.",
+  },
+  {
+    number: "2",
+    title: "We found the real gap",
+    description:
+      "The gap wasn't technology. It was skilled people who could own and evolve what was built.",
+  },
+  {
+    number: "3",
+    title: "We decided to close it",
+    description:
+      "Platform expertise fused with bootcamp-style enablement. Building capability, not dependency.",
+  },
+];
+export const STORY_CALLOUT_TITLE_START = "Same hands that built the systems.";
+export const STORY_CALLOUT_TITLE_ACCENT = "New mission: build the teams.";
+export const STORY_CALLOUT_TEXT =
+  "Maaloomatiia combines enterprise delivery experience with structured capability programs to create skilled, self-sufficient technology teams.";
 // Stats banner
 export const STATS: readonly StatContent[] = [
   { target: 14, suffix: "+", label: "Years in MENA" },
@@ -142,29 +158,27 @@ export const CONTACT_TITLE = "Get in Touch";
 export const CONTACT_SUBTITLE =
   "Ready to build real Data & AI capability? Let's talk.";
 export const CONTACT_INTRO =
-  "Whether you're adopting a new data platform, upskilling a team, or launching an enterprise capability program — we'll help you move from investment to real delivery.";
+  "Whether you're adopting a new data platform, upskilling a team, or launching an enterprise capability program, we'll help you move from investment to real delivery.";
 export const CONTACT_EMAIL = "training@maaloomatiia.com";
-export const CONTACT_PHONE = "+971 58 550 5898";
 export const CONTACT_WHATSAPP_URL = "https://wa.me/971585505898";
 export const CONTACT_LOCATION =
-  "Office 3310, Addax Tower, City of Lights, Al Reem Island — Abu Dhabi, UAE";
+  "Cayan Business Center, Barsha Heights, 8th Floor, Office 802, Dubai";
 export const CONTACT_MAP_URL =
-  "https://www.google.com/maps/search/?api=1&query=Addax%20Tower%2C%20Al%20Reem%20Island%2C%20Abu%20Dhabi";
+  "https://www.google.com/maps/search/?api=1&query=Cayan%20Business%20Center%2C%20Barsha%20Heights%2C%20Dubai";
 export const CONTACT_LINKEDIN = "linkedin.com/company/maaloomatiia";
 
 // Footer
-export const FOOTER_TAGLINE = "Innovate. Enable. Elevate.";
 export const FOOTER_COPYRIGHT = "© 2026 Maaloomatiia. All rights reserved.";
 
-// Imagery — photo files live directly in the public/ folder
+// Imagery: photo files live directly in the public/ folder
 export const HERO_IMAGE = "/hero.jpeg";
 export const MISSION_IMAGE = "/mission.jpeg";
 export const MISSION_IMAGE_ALT =
   "A diverse enterprise team working through a data project together";
 
-export const GALLERY_TITLE = "In the room with your teams";
+export const GALLERY_TITLE = "Who we work with";
 export const GALLERY_SUBTITLE =
-  "Hands-on, practitioner-led sessions — delivered on-site and across the region.";
+  "We work with enterprises and government entities adopting Data & AI platforms, public-sector and workforce-development bodies running national capability programs, L&D and HR teams building internal talent pipelines, foundations and universities running role-based cohorts, and teams commissioning focused skills workshops.";
 export const GALLERY_IMAGES: readonly GalleryImage[] = [
   {
     src: "/gallery-1.jpeg",

@@ -29,9 +29,9 @@ export default function Hero() {
 
       <div className="relative z-10 mx-auto max-w-3xl text-center">
         <Reveal>
-          <h1 className="text-3xl font-bold leading-[1.1] tracking-tight sm:text-4xl md:text-5xl lg:text-6xl">
-            <span className="block text-white">{HERO_HEADLINE_LINE_1}</span>
-            <span className="block bg-gradient-to-r from-brand-teal-light to-brand-accent-glow bg-clip-text text-transparent">
+          <h1 className="text-3xl font-bold leading-[1.1] tracking-tight text-white sm:text-4xl md:text-5xl lg:text-6xl">
+            {HERO_HEADLINE_LINE_1}{" "}
+            <span className="bg-gradient-to-r from-brand-teal-light to-brand-accent-glow bg-clip-text text-transparent">
               {HERO_HEADLINE_LINE_2}
             </span>
           </h1>

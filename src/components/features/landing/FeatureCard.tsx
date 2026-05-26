@@ -7,7 +7,6 @@ interface FeatureCardProps extends FeatureContent {
 export default function FeatureCard({
   icon: Icon,
   title,
-  subtitle,
   description,
 }: FeatureCardProps) {
   return (
@@ -16,9 +15,6 @@ export default function FeatureCard({
         <Icon className="h-6 w-6 text-brand-teal-dark" />
       </span>
       <h3 className="mt-5 text-lg font-bold text-brand-ink">{title}</h3>
-      <p className="mt-1 text-sm font-semibold text-brand-teal-dark">
-        {subtitle}
-      </p>
       <p className="mt-3 text-base leading-relaxed text-brand-muted">
         {description}
       </p>
