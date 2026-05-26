@@ -1,11 +1,13 @@
 import Contact from "@/components/features/landing/Contact";
-import Ecosystem from "@/components/features/landing/Ecosystem";
 import Features from "@/components/features/landing/Features";
 import Gallery from "@/components/features/landing/Gallery";
 import Hero from "@/components/features/landing/Hero";
 import HowItWorks from "@/components/features/landing/HowItWorks";
 import Mission from "@/components/features/landing/Mission";
 import Navbar from "@/components/features/landing/Navbar";
+import OurStory from "@/components/features/landing/OurStory";
+import Pillars from "@/components/features/landing/Pillars";
+import PlatformPartners from "@/components/features/landing/PlatformPartners";
 import SiteFooter from "@/components/features/landing/SiteFooter";
 import StatsBanner from "@/components/features/landing/StatsBanner";
 
@@ -23,8 +25,10 @@ export default function LandingPage() {
         <Hero />
         <Mission />
         <Features />
-        <Ecosystem />
+        <Pillars />
         <HowItWorks />
+        <PlatformPartners />
+        <OurStory />
         <StatsBanner />
         <Gallery />
         <Contact />

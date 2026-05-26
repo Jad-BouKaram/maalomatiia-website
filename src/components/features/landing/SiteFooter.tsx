@@ -1,5 +1,5 @@
 import Image from "next/image";
-import { BRAND_NAME, FOOTER_COPYRIGHT, FOOTER_TAGLINE } from "@/constants/landing";
+import { BRAND_NAME, FOOTER_COPYRIGHT } from "@/constants/landing";
 
 export default function SiteFooter() {
   return (
@@ -12,10 +12,7 @@ export default function SiteFooter() {
         unoptimized
         className="mx-auto h-auto w-40"
       />
-      <p className="mt-4 text-xs uppercase tracking-[0.2em] text-white/70">
-        {FOOTER_TAGLINE}
-      </p>
-      <p className="mt-2 text-xs tracking-wide text-white/55">
+      <p className="mt-5 text-xs tracking-wide text-white/55">
         {FOOTER_COPYRIGHT}
       </p>
     </footer>

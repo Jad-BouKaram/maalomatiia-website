@@ -4,7 +4,7 @@ import { ADOPT_STEPS, HOW_DESCRIPTION, HOW_TITLE } from "@/constants/landing";
 
 export default function HowItWorks() {
   return (
-    <section className="bg-brand-dark-navy px-6 py-20 md:py-28">
+    <section className="bg-brand-dark-navy px-6 pb-10 pt-10 md:pb-14 md:pt-14">
       <div className="mx-auto max-w-6xl">
         <Reveal>
           <div className="mx-auto max-w-2xl text-center">

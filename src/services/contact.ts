@@ -11,7 +11,7 @@ export const contactSchema = z.object({
   message: z
     .string()
     .trim()
-    .min(10, "Tell us a little more — 10 characters or more"),
+    .min(10, "Tell us a little more (10 characters or more)"),
 });
 
 export type ContactInput = z.infer<typeof contactSchema>;

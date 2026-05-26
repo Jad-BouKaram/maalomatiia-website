@@ -9,7 +9,7 @@ import {
 
 export default function Mission() {
   return (
-    <section className="bg-white px-6 py-20 md:py-28">
+    <section className="bg-white px-6 pb-10 pt-20 md:pb-14 md:pt-28">
       <div className="mx-auto max-w-6xl">
         <Reveal>
           <div className="grid grid-cols-1 items-center gap-10 lg:grid-cols-2 lg:gap-16">
