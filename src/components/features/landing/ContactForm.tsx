@@ -20,16 +20,10 @@ const FIELDS: readonly FieldConfig[] = [
   { name: "name", label: "Your name", placeholder: "Jane Doe", autoComplete: "name" },
   {
     name: "email",
-    label: "Work email",
+    label: "Email",
     placeholder: "jane@company.com",
     type: "email",
     autoComplete: "email",
-  },
-  {
-    name: "company",
-    label: "Company",
-    placeholder: "Company name",
-    autoComplete: "organization",
   },
   {
     name: "message",

@@ -14,7 +14,6 @@ export type SubmitStatus = "idle" | "sending" | "sent" | "error";
 const EMPTY_FORM: ContactInput = {
   name: "",
   email: "",
-  company: "",
   message: "",
 };
 const SENT_RESET_MS = 6000;
