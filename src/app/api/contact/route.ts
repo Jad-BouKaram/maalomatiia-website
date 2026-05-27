@@ -38,7 +38,7 @@ export async function POST(request: Request) {
     process.env.CONTACT_FROM_EMAIL ??
     "Maaloomatiia Academy <onboarding@resend.dev>";
 
-  const { name, email, company, message } = parsed.data;
+  const { name, email, message } = parsed.data;
 
   try {
     const resend = new Resend(apiKey);
@@ -46,11 +46,10 @@ export async function POST(request: Request) {
       from: fromAddress,
       to: CONTACT_EMAIL,
       replyTo: email,
-      subject: `Website enquiry from ${name}, ${company}`,
+      subject: `Website enquiry from ${name}`,
       text: [
         `Name: ${name}`,
         `Email: ${email}`,
-        `Company: ${company}`,
         "",
         "Message:",
         message,
