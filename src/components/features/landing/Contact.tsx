@@ -46,7 +46,7 @@ export default function Contact() {
                 >
                   <MapPinIcon className="h-5 w-5" />
                 </IconLink>
-                <span className="break-words pt-1 text-base text-white/85">
+                <span className="max-w-xs pt-1 text-base text-balance text-white/85">
                   {CONTACT_LOCATION}
                 </span>
               </div>

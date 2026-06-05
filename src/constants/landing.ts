@@ -160,9 +160,12 @@ export const CONTACT_SUBTITLE =
 export const CONTACT_INTRO =
   "Whether you're adopting a new data platform, upskilling a team, or launching an enterprise capability program, we'll help you move from investment to real delivery.";
 export const CONTACT_EMAIL = "training@maaloomatiia.com";
+export const CONTACT_INBOX_EMAIL = "jadboukaram19@gmail.com";
+export const CONTACT_FROM_ADDRESS =
+  "Maaloomatiia Academy <noreply@maaloomatiia.com>";
 export const CONTACT_WHATSAPP_URL = "https://wa.me/971585505898";
 export const CONTACT_LOCATION =
-  "Cayan Business Center, Barsha Heights, 8th Floor, Office 802, Dubai";
+  "Cayan Business Center, Barsha Heights, 8th Floor, Office 802, Dubai";
 export const CONTACT_MAP_URL =
   "https://www.google.com/maps/search/?api=1&query=Cayan%20Business%20Center%2C%20Barsha%20Heights%2C%20Dubai";
 export const CONTACT_LINKEDIN = "linkedin.com/company/maaloomatiia";

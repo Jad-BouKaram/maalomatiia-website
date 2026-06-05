@@ -1,7 +1,7 @@
 "use client";
 
 import Image from "next/image";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import BurstEffects from "@/components/features/loading/BurstEffects";
 import {
   FADE_OUT_MS,
@@ -26,6 +26,10 @@ function getLogoState(phase: LoadingPhase): string {
 
 export default function LoadingScreen({ onComplete }: LoadingScreenProps) {
   const [isTickComplete, setIsTickComplete] = useState(false);
+
+  useEffect(() => {
+    document.getElementById("splash-mask")?.remove();
+  }, []);
 
   const { phase, fadeOut } = useLoadingPhases({
     onComplete,

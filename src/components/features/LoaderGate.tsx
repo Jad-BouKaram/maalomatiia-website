@@ -25,6 +25,7 @@ export default function LoaderGate() {
 
   useEffect(() => {
     if (!shouldSkipIntro()) return;
+    document.getElementById("splash-mask")?.remove();
     const skip = window.setTimeout(() => setDone(true), 0);
     return () => clearTimeout(skip);
   }, []);
