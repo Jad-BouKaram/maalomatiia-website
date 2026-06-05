@@ -1,9 +1,6 @@
 import { NextResponse } from "next/server";
 import { Resend } from "resend";
-import {
-  CONTACT_FROM_ADDRESS,
-  CONTACT_INBOX_EMAIL,
-} from "@/constants/landing";
+import { CONTACT_EMAIL, CONTACT_FROM_ADDRESS } from "@/constants/landing";
 import { contactSchema } from "@/services/contact";
 
 export async function POST(request: Request) {
@@ -42,7 +39,7 @@ export async function POST(request: Request) {
     const resend = new Resend(apiKey);
     const { error } = await resend.emails.send({
       from: fromAddress,
-      to: CONTACT_INBOX_EMAIL,
+      to: CONTACT_EMAIL,
       replyTo: email,
       subject: `Website enquiry from ${name}`,
       text: [
