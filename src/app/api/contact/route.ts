@@ -1,6 +1,9 @@
 import { NextResponse } from "next/server";
 import { Resend } from "resend";
-import { CONTACT_EMAIL } from "@/constants/landing";
+import {
+  CONTACT_FROM_ADDRESS,
+  CONTACT_INBOX_EMAIL,
+} from "@/constants/landing";
 import { contactSchema } from "@/services/contact";
 
 export async function POST(request: Request) {
@@ -31,12 +34,7 @@ export async function POST(request: Request) {
     );
   }
 
-  // `from` defaults to Resend's shared sender so only RESEND_API_KEY is
-  // required. Set CONTACT_FROM_EMAIL to a verified-domain address for
-  // production delivery.
-  const fromAddress =
-    process.env.CONTACT_FROM_EMAIL ??
-    "Maaloomatiia Academy <onboarding@resend.dev>";
+  const fromAddress = process.env.CONTACT_FROM_EMAIL ?? CONTACT_FROM_ADDRESS;
 
   const { name, email, message } = parsed.data;
 
@@ -44,7 +42,7 @@ export async function POST(request: Request) {
     const resend = new Resend(apiKey);
     const { error } = await resend.emails.send({
       from: fromAddress,
-      to: CONTACT_EMAIL,
+      to: CONTACT_INBOX_EMAIL,
       replyTo: email,
       subject: `Website enquiry from ${name}`,
       text: [
