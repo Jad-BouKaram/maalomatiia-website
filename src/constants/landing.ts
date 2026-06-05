@@ -160,7 +160,6 @@ export const CONTACT_SUBTITLE =
 export const CONTACT_INTRO =
   "Whether you're adopting a new data platform, upskilling a team, or launching an enterprise capability program, we'll help you move from investment to real delivery.";
 export const CONTACT_EMAIL = "training@maaloomatiia.com";
-export const CONTACT_INBOX_EMAIL = "jadboukaram19@gmail.com";
 export const CONTACT_FROM_ADDRESS =
   "Maaloomatiia Academy <noreply@maaloomatiia.com>";
 export const CONTACT_WHATSAPP_URL = "https://wa.me/971585505898";
